@@ -1,0 +1,65 @@
+def menu():
+    valor_saldo = 0
+    limite_diario = 500
+    extrato = ""
+    numero_saques = 0
+    limite_saq = 3  
+
+    while True:
+        print("\n===== Seja bem vindo ao Banco Sucesso =====")
+        print("\n****          Menu Principal       ****")
+        print("\n1. Depósito")
+        print("2. Extrato")
+        print("3. Saque")
+        print("0. Sair")
+        
+        escolha = input("\nEscolha uma opção: ")
+
+        if escolha == "1": 
+            valor_deposito = float(input("Informe o valor a ser depositado: "))
+
+            if valor_deposito > 0:
+                valor_saldo += valor_deposito
+                extrato += f"Depósito: R$ {valor_deposito:.2f}\n"
+                print(f"Depósito de R$ {valor_deposito:.2f} realizado com sucesso.")
+
+            else:
+                print("Valor incorreto para depósito.")
+
+        elif escolha == "3":
+            valor = float(input("Informe um valor para saque: "))
+
+            saldo_insufic = valor > valor_saldo
+            limite_insufic = valor > limite_diario 
+            saque_limite = numero_saques >= limite_saq
+
+            if saldo_insufic:
+                print("Saque não autorizado. Motivo: Saldo insuficiente.") 
+
+            elif limite_insufic:
+                print("Valor excede o limite permitido para saque. Por favor, tente outro valor.")
+
+            elif saque_limite:
+                print("Não foi possível realizar a operação. Limite de saque diário excedido.")
+
+            elif valor > 0:
+                valor_saldo -= valor
+                extrato += f"Saque: R$ {valor:.2f}\n"
+                numero_saques += 1
+                print(f"Saque de R$ {valor:.2f} realizado com sucesso.")
+            else:
+                print("Não foi possível realizar a operação. Valor informado é inválido!")
+
+        elif escolha == "2":
+            print("\n================ EXTRATO BANCÁRIO ===============")
+            print("Sem movimentação no período." if not extrato else extrato)
+            print(f"\nSaldo: R$ {valor_saldo:.2f}")
+            print("===================================================")
+
+        elif escolha == "0":
+            print("Saindo do sistema bancário. Obrigado por utilizar nossos serviços.")
+            break    
+        else:
+            print("Operação inválida, por favor selecionar novamente a opção desejada.")
+
+menu()
